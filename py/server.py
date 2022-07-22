@@ -3,6 +3,7 @@ import logging
 import sqlite3
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from time import sleep
 from uvicorn import Config, Server
 
@@ -33,6 +34,13 @@ class DarvesterAPI:
         self.port: int = kwargs.get('port', 8080)
         self.debug: bool = kwargs.get('debug', False)
 
+        self.api.add_middleware(
+                CORSMiddleware,
+                allow_origins=["*"],
+                allow_credentials=["*"],
+                allow_methods=["*"],
+                allow_headers=["*"]
+        )
         if self.debug:
             logging.basicConfig(level=logging.DEBUG)
             logger.debug("Debug mode enabled.")

@@ -1,6 +1,6 @@
 import argparse
 from py.server import DarvesterAPI
-from py.routes import guilds, users
+from py.routes import guilds, users, misc
 
 argparser = argparse.ArgumentParser(description='Darvester API backend server.')
 argparser.add_argument('--host', type=str, default='0.0.0.0', help='Host to bind to. (default: 0.0.0.0)')
@@ -18,5 +18,6 @@ server = DarvesterAPI(
 
 guilds.setup(server)
 users.setup(server)
+misc.setup(server)
 
 server.setup()

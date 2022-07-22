@@ -1,7 +1,6 @@
 import json
 
 from fastapi import HTTPException
-from typing import Union
 from py.server import DarvesterAPI
 
 

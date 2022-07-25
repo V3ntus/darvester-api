@@ -54,6 +54,28 @@ def setup(api: DarvesterAPI):
             api.caches.guilds.set(guild_id, data)
             return data
 
+    @api.get("/guilds/{guild_id}/members")
+    def get_guild_members(guild_id: int):
+        """
+        Get members in a guild
+
+        :param guild_id: The guild ID
+        :type guild_id: int
+        :return:
+        :rtype:
+        """
+        with api.db_connect() as db:
+            members = db.execute("SELECT data, id FROM users WHERE mutual_guilds LIKE ?",
+                                 (f"%{str(guild_id)}%", )).fetchall()
+            if not members:
+                raise HTTPException(status_code=404, detail="No members found or guild not found")
+            for idx, member in enumerate(members):
+                _member: dict = json.loads(member[0])
+                _member["id"] = member[1]
+                api.caches.users.set(member[1], _member)
+                members[idx] = _member
+            return {"members": members}
+
     @api.get("/guilds/{guild_id}/{field}")
     def get_guild_field(guild_id: int, field: str):
         """

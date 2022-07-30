@@ -21,6 +21,7 @@ python3.9 -m venv env
 source env/bin/activate
 pip install -r requirements
 ```
+*Note: Your harvested.db file should be in the same directory as this package. Command line arg and config should be added soon*
 ### 3. Run
 ```
 python main.py --host 0.0.0.0 --port 3000
